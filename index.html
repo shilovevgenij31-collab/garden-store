@@ -1,26 +1,587 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Garden — Садовый магазин в Череповце</title>
+  <meta name="description" content="English Garden — садовый магазин в Череповце. Цветы, рассада, семена, инструменты и декор для вашего сада." />
+  <link rel="icon" href="/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:'Montserrat',sans-serif;font-weight:400;color:#3D3225;background:#FBF8F3;overflow-x:hidden;line-height:1.6}
+    img{max-width:100%;height:auto;display:block}
+    a{text-decoration:none;color:inherit;transition:color .3s}
+    ul{list-style:none}
+    button{cursor:pointer;border:none;font-family:inherit}
+    input,textarea{font-family:inherit}
+    :root{
+      --bg-cream:#FBF8F3;--bg-beige:#F0EBE0;--bg-warm:#EDE5D5;
+      --olive:#5C6B3C;--olive-dark:#4A5530;--olive-light:#7A8B5C;--olive-muted:#8B9B6B;
+      --text-dark:#3D3225;--text-body:#5A4F42;--text-light:#8B7E6E;
+      --accent-gold:#C4A96A;--accent-rose:#C4917A;
+      --white:#FFFFFF;--border:#D9D0C1;
+      --shadow:0 4px 20px rgba(61,50,37,.08);--shadow-lg:0 8px 40px rgba(61,50,37,.12);
+      --radius:12px;--radius-lg:20px;
+      --transition:.4s cubic-bezier(.25,.8,.25,1);
+    }
+    h1,h2,h3{font-family:'Playfair Display',serif;font-weight:600;color:var(--text-dark)}
+    .script-font{font-family:'Cormorant Garamond',serif;font-style:italic}
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    /* ANIMATIONS */
+    .fade-up{opacity:0;transform:translateY(40px);transition:opacity .8s var(--transition),transform .8s var(--transition)}
+    .fade-up.visible{opacity:1;transform:translateY(0)}
+    .fade-left{opacity:0;transform:translateX(-40px);transition:opacity .8s var(--transition),transform .8s var(--transition)}
+    .fade-left.visible{opacity:1;transform:translateX(0)}
+    .fade-right{opacity:0;transform:translateX(40px);transition:opacity .8s var(--transition),transform .8s var(--transition)}
+    .fade-right.visible{opacity:1;transform:translateX(0)}
+    .scale-in{opacity:0;transform:scale(.9);transition:opacity .6s var(--transition),transform .6s var(--transition)}
+    .scale-in.visible{opacity:1;transform:scale(1)}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-size:.9rem;font-weight:500;letter-spacing:.5px;transition:all var(--transition)}
+    .btn-primary{background:var(--olive);color:var(--white)}
+    .btn-primary:hover{background:var(--olive-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(92,107,60,.3)}
+    .btn-outline{background:transparent;color:var(--olive);border:2px solid var(--olive)}
+    .btn-outline:hover{background:var(--olive);color:var(--white);transform:translateY(-2px)}
+    .btn-white{background:var(--white);color:var(--olive-dark)}
+    .btn-white:hover{background:var(--bg-beige);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .section{padding:100px 0}
+    .section-label{font-size:.8rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--olive-muted);margin-bottom:12px}
+    .section-title{font-size:2.5rem;margin-bottom:16px;line-height:1.2}
+    .section-subtitle{font-size:1.1rem;color:var(--text-light);max-width:600px}
+    .section-header{text-align:center;margin-bottom:60px}
+    .section-header .section-subtitle{margin:0 auto}
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    /* HEADER */
+    .header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:all .4s;background:transparent}
+    .header.scrolled{background:rgba(251,248,243,.95);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(61,50,37,.08);padding:10px 0}
+    .header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--white);transition:color .4s}
+    .logo span{color:var(--accent-gold)}
+    .header.scrolled .logo{color:var(--olive-dark)}
+    .nav-links{display:flex;gap:32px;align-items:center}
+    .nav-links a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.9);position:relative;transition:color .3s}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent-gold);transition:width .3s}
+    .nav-links a:hover::after{width:100%}
+    .header.scrolled .nav-links a{color:var(--text-body)}
+    .header.scrolled .nav-links a:hover{color:var(--olive)}
+    .header-actions{display:flex;align-items:center;gap:16px}
+    .header-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.15);color:var(--white);transition:all .3s;position:relative;border:none;font-size:1.1rem}
+    .header-icon:hover{background:rgba(255,255,255,.3);transform:scale(1.1)}
+    .header.scrolled .header-icon{background:var(--bg-beige);color:var(--olive-dark)}
+    .header.scrolled .header-icon:hover{background:var(--olive);color:var(--white)}
+    .cart-count{position:absolute;top:-4px;right:-4px;background:var(--accent-rose);color:var(--white);font-size:.65rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .cart-count.hidden{display:none}
+    .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+    .burger span{display:block;width:24px;height:2px;background:var(--white);transition:all .3s}
+    .header.scrolled .burger span{background:var(--text-dark)}
+    .burger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .burger.active span:nth-child(2){opacity:0}
+    .burger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+    /* HERO */
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('/images/hero-bg.jpg') center/cover no-repeat}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(74,85,48,.7) 0%,rgba(61,50,37,.5) 50%,rgba(74,85,48,.4) 100%)}
+    .hero-content{position:relative;z-index:2;max-width:650px;animation:slideUp 1s ease-out .3s both}
+    .hero-label{font-size:.85rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--accent-gold);margin-bottom:20px}
+    .hero h1{font-size:4rem;color:var(--white);line-height:1.1;margin-bottom:24px}
+    .hero h1 em{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--accent-gold);font-weight:500}
+    .hero-desc{font-size:1.15rem;color:rgba(255,255,255,.85);margin-bottom:36px;line-height:1.7}
+    .hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+    .hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;animation:float 3s ease-in-out infinite;color:rgba(255,255,255,.6);font-size:.8rem;text-align:center}
+    .hero-scroll-icon{width:30px;height:50px;border:2px solid rgba(255,255,255,.4);border-radius:15px;margin:8px auto 0;position:relative}
+    .hero-scroll-icon::after{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:4px;height:10px;background:rgba(255,255,255,.6);border-radius:2px;animation:float 2s ease-in-out infinite}
+
+    /* CATEGORIES */
+    .categories{background:var(--bg-cream)}
+    .categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+    .category-card{position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:1;cursor:pointer}
+    .category-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--transition)}
+    .category-card:hover img{transform:scale(1.1)}
+    .category-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(61,50,37,.8) 0%,transparent 60%);display:flex;align-items:flex-end;padding:24px;transition:background .4s}
+    .category-card:hover .category-card-overlay{background:linear-gradient(to top,rgba(92,107,60,.85) 0%,transparent 70%)}
+    .category-card-title{color:var(--white);font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600}
+
+    /* PRODUCTS */
+    .popular{background:var(--bg-beige)}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px}
+    .product-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all var(--transition)}
+    .product-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+    .product-img-wrap{position:relative;overflow:hidden;aspect-ratio:1}
+    .product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+    .product-card:hover .product-img-wrap img{transform:scale(1.08)}
+    .product-badge{position:absolute;top:12px;left:12px;background:var(--accent-rose);color:var(--white);font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px}
+    .product-info{padding:20px}
+    .product-category{font-size:.75rem;color:var(--olive-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+    .product-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;margin-bottom:8px;color:var(--text-dark)}
+    .product-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+    .product-price{font-size:1.2rem;font-weight:600;color:var(--olive)}
+    .product-price-old{font-size:.9rem;color:var(--text-light);text-decoration:line-through;margin-left:8px;font-weight:400}
+    .btn-add-cart{width:42px;height:42px;border-radius:50%;background:var(--olive);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .3s;border:none}
+    .btn-add-cart:hover{background:var(--olive-dark);transform:scale(1.1)}
+
+    /* ABOUT */
+    .about{background:var(--bg-cream)}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    .about-image{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);position:relative}
+    .about-image img{width:100%;height:100%;object-fit:cover}
+    .about-text p{color:var(--text-body);margin-bottom:16px;line-height:1.8}
+    .about-text .script-font{font-size:1.4rem;color:var(--olive);margin-top:20px}
+
+    /* ADVANTAGES */
+    .advantages{background:var(--olive-dark);color:var(--white)}
+    .advantages .section-label{color:var(--accent-gold)}
+    .advantages .section-title{color:var(--white)}
+    .advantages .section-subtitle{color:rgba(255,255,255,.7)}
+    .advantages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:32px}
+    .advantage-card{text-align:center;padding:40px 24px;background:rgba(255,255,255,.08);border-radius:var(--radius-lg);border:1px solid rgba(255,255,255,.1);transition:all var(--transition)}
+    .advantage-card:hover{background:rgba(255,255,255,.15);transform:translateY(-6px)}
+    .advantage-icon{width:64px;height:64px;margin:0 auto 20px;background:rgba(196,169,106,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+    .advantage-title{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--white)}
+    .advantage-desc{font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.6}
+
+    /* CATALOG */
+    .catalog{background:var(--bg-beige)}
+    .catalog-filters{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+    .filter-btn{padding:10px 24px;border-radius:50px;background:var(--white);color:var(--text-body);font-size:.85rem;font-weight:500;border:1px solid var(--border);transition:all .3s}
+    .filter-btn:hover,.filter-btn.active{background:var(--olive);color:var(--white);border-color:var(--olive)}
+
+    /* PROMO */
+    .promo{position:relative;padding:120px 0;overflow:hidden}
+    .promo-bg{position:absolute;inset:0;background:url('/images/promo-banner.jpg') center/cover no-repeat}
+    .promo-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(92,107,60,.85) 0%,rgba(74,85,48,.7) 100%)}
+    .promo-content{position:relative;z-index:2;text-align:center;max-width:700px;margin:0 auto}
+    .promo-content h2{font-size:3rem;color:var(--white);margin-bottom:16px}
+    .promo-content p{font-size:1.15rem;color:rgba(255,255,255,.85);margin-bottom:32px}
+
+    /* HOW ORDER */
+    .how-order{background:var(--bg-cream)}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px}
+    .step{text-align:center;padding:0 16px}
+    .step-number{width:60px;height:60px;border-radius:50%;background:var(--olive);color:var(--white);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+    .step-title{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;color:var(--text-dark)}
+    .step-desc{font-size:.9rem;color:var(--text-light);line-height:1.6}
+
+    /* REVIEWS */
+    .reviews{background:var(--bg-beige)}
+    .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+    .review-card{background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow);transition:all var(--transition)}
+    .review-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .review-stars{color:var(--accent-gold);font-size:1.1rem;margin-bottom:16px;letter-spacing:2px}
+    .review-text{font-size:.95rem;color:var(--text-body);line-height:1.7;margin-bottom:20px;font-style:italic}
+    .review-author{display:flex;align-items:center;gap:12px}
+    .review-avatar{width:44px;height:44px;border-radius:50%;background:var(--olive-muted);display:flex;align-items:center;justify-content:center;color:var(--white);font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem}
+    .review-name{font-weight:600;font-size:.95rem}
+    .review-date{font-size:.8rem;color:var(--text-light)}
+
+    /* CONTACTS */
+    .contacts{background:var(--bg-cream)}
+    .contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+    .contact-info h3{font-size:1.4rem;margin-bottom:24px}
+    .contact-item{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
+    .contact-icon{width:44px;height:44px;border-radius:50%;background:var(--olive);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .contact-label{font-size:.8rem;color:var(--text-light);margin-bottom:2px}
+    .contact-value{font-weight:500;color:var(--text-dark)}
+    .contacts-map{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);min-height:360px}
+    .contacts-map iframe{width:100%;height:100%;min-height:360px;border:none}
+
+    /* FOOTER */
+    .footer{background:var(--olive-dark);color:rgba(255,255,255,.8);padding:60px 0 24px}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:12px}
+    .footer-logo span{color:var(--accent-gold)}
+    .footer-desc{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.7}
+    .footer-col h4{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--white);margin-bottom:16px}
+    .footer-col a{display:block;font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:10px;transition:color .3s}
+    .footer-col a:hover{color:var(--accent-gold)}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.15);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:rgba(255,255,255,.5)}
+
+    /* MODALS */
+    .modal-overlay{position:fixed;inset:0;background:rgba(61,50,37,.5);backdrop-filter:blur(4px);z-index:2000;opacity:0;visibility:hidden;transition:all .3s}
+    .modal-overlay.active{opacity:1;visibility:visible}
+    .cart-panel{position:fixed;top:0;right:-460px;width:440px;max-width:90vw;height:100vh;background:var(--white);z-index:2001;transition:right .4s var(--transition);display:flex;flex-direction:column}
+    .cart-panel.active{right:0}
+    .cart-header{padding:24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .cart-header h3{font-size:1.3rem}
+    .cart-close{background:none;border:none;font-size:1.5rem;color:var(--text-light);cursor:pointer;transition:color .3s}
+    .cart-close:hover{color:var(--text-dark)}
+    .cart-items{flex:1;overflow-y:auto;padding:24px}
+    .cart-empty{text-align:center;padding:60px 20px;color:var(--text-light)}
+    .cart-empty-icon{font-size:3rem;margin-bottom:16px}
+    .cart-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+    .cart-item-img{width:80px;height:80px;border-radius:var(--radius);overflow:hidden;flex-shrink:0}
+    .cart-item-img img{width:100%;height:100%;object-fit:cover}
+    .cart-item-info{flex:1}
+    .cart-item-name{font-family:'Playfair Display',serif;font-weight:600;margin-bottom:4px}
+    .cart-item-price{color:var(--olive);font-weight:600}
+    .cart-item-qty{display:flex;align-items:center;gap:12px;margin-top:8px}
+    .qty-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:var(--bg-cream);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text-dark);cursor:pointer;transition:all .2s}
+    .qty-btn:hover{background:var(--olive);color:var(--white);border-color:var(--olive)}
+    .cart-item-remove{background:none;border:none;color:var(--text-light);font-size:1.2rem;cursor:pointer;align-self:flex-start;transition:color .3s}
+    .cart-item-remove:hover{color:var(--accent-rose)}
+    .cart-footer{padding:24px;border-top:1px solid var(--border)}
+    .cart-total{display:flex;justify-content:space-between;font-size:1.2rem;font-weight:600;margin-bottom:16px}
+    .cart-total span:last-child{color:var(--olive)}
+    .btn-checkout{width:100%;padding:16px;border-radius:50px;background:var(--olive);color:var(--white);font-size:1rem;font-weight:600;border:none;transition:all .3s}
+    .btn-checkout:hover{background:var(--olive-dark)}
+
+    .account-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);background:var(--white);border-radius:var(--radius-lg);padding:40px;z-index:2001;width:420px;max-width:90vw;box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:all .3s}
+    .account-modal.active{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+    .account-modal h3{text-align:center;font-size:1.5rem;margin-bottom:24px}
+    .form-group{margin-bottom:16px}
+    .form-group label{display:block;font-size:.85rem;font-weight:500;margin-bottom:6px;color:var(--text-body)}
+    .form-group input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius);font-size:.95rem;transition:border-color .3s;background:var(--bg-cream)}
+    .form-group input:focus{outline:none;border-color:var(--olive)}
+    .form-submit{width:100%;margin-top:8px}
+
+    .mobile-nav{position:fixed;top:0;left:-100%;width:300px;max-width:80vw;height:100vh;background:var(--white);z-index:2001;padding:80px 32px 32px;transition:left .4s var(--transition);box-shadow:var(--shadow-lg)}
+    .mobile-nav.active{left:0}
+    .mobile-nav a{display:block;font-size:1.1rem;font-weight:500;color:var(--text-dark);padding:14px 0;border-bottom:1px solid var(--border);transition:color .3s}
+    .mobile-nav a:hover{color:var(--olive)}
+
+    @media(max-width:1024px){
+      .hero h1{font-size:3rem}.section-title{font-size:2rem}.footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:768px){
+      .nav-links{display:none}.burger{display:flex}
+      .hero h1{font-size:2.4rem}.hero-desc{font-size:1rem}
+      .section{padding:70px 0}.section-title{font-size:1.8rem}
+      .about-grid{grid-template-columns:1fr}.contacts-grid{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr;gap:24px}
+      .promo-content h2{font-size:2.2rem}
+      .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+    }
+    @media(max-width:480px){
+      .hero h1{font-size:2rem}
+      .hero-buttons{flex-direction:column}
+      .hero-buttons .btn{width:100%;justify-content:center}
+      .categories-grid{grid-template-columns:1fr 1fr}
+      .products-grid{grid-template-columns:1fr}
+      .reviews-grid{grid-template-columns:1fr}
+      .section{padding:50px 0}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="container">
+      <a href="#" class="logo">English <span>Garden</span></a>
+      <nav class="nav-links">
+        <a href="#categories">Каталог</a>
+        <a href="#about">О нас</a>
+        <a href="#advantages">Преимущества</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <div class="header-actions">
+        <button class="header-icon" onclick="openAccount()" title="Личный кабинет">👤</button>
+        <button class="header-icon" onclick="openCart()" title="Корзина">🛒<span class="cart-count hidden" id="cartCount">0</span></button>
+        <button class="burger" id="burger" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#categories" onclick="closeMobileNav()">Каталог</a>
+    <a href="#about" onclick="closeMobileNav()">О нас</a>
+    <a href="#advantages" onclick="closeMobileNav()">Преимущества</a>
+    <a href="#how-order" onclick="closeMobileNav()">Как заказать</a>
+    <a href="#reviews" onclick="closeMobileNav()">Отзывы</a>
+    <a href="#contacts" onclick="closeMobileNav()">Контакты</a>
+  </nav>
+
+  <!-- CART -->
+  <div class="modal-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-header"><h3>Корзина</h3><button class="cart-close" onclick="closeCart()">✕</button></div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty"><div class="cart-empty-icon">🌿</div><p>Корзина пуста</p><p style="font-size:.85rem;margin-top:8px;">Добавьте товары из каталога</p></div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total"><span>Итого:</span><span id="cartTotal">0 ₽</span></div>
+      <button class="btn-checkout" onclick="checkout()">Оформить предзаказ</button>
+    </div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="modal-overlay" id="accountOverlay" onclick="closeAccount()"></div>
+  <div class="account-modal" id="accountModal">
+    <h3>Личный кабинет</h3>
+    <div class="form-group"><label>Имя</label><input type="text" placeholder="Ваше имя" /></div>
+    <div class="form-group"><label>Телефон</label><input type="tel" placeholder="+7 (000) 000-00-00" /></div>
+    <div class="form-group"><label>Email</label><input type="email" placeholder="example@mail.ru" /></div>
+    <button class="btn btn-primary form-submit" onclick="closeAccount()">Сохранить</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-label">Садовый магазин в Череповце</div>
+        <h1>Создаём <em>английские сады</em> у вас дома</h1>
+        <p class="hero-desc">Растения, цветы, инструменты и декор для создания сада вашей мечты. Доставка по Череповцу и области.</p>
+        <div class="hero-buttons">
+          <a href="#catalog" class="btn btn-primary">Смотреть каталог</a>
+          <a href="#about" class="btn btn-outline" style="border-color:rgba(255,255,255,.5);color:#fff">О магазине</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll"><span>Листайте вниз</span><div class="hero-scroll-icon"></div></div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section categories" id="categories">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Категории</div>
+        <h2 class="section-title">Выберите направление</h2>
+        <p class="section-subtitle">Всё для создания идеального английского сада</p>
+      </div>
+      <div class="categories-grid">
+        <div class="category-card fade-up" style="transition-delay:.1s"><img src="/images/cat-flowers.jpg" alt="Цветы" loading="lazy"/><div class="category-card-overlay"><span class="category-card-title">Цветы</span></div></div>
+        <div class="category-card fade-up" style="transition-delay:.2s"><img src="/images/cat-seedlings.jpg" alt="Рассада" loading="lazy"/><div class="category-card-overlay"><span class="category-card-title">Рассада</span></div></div>
+        <div class="category-card fade-up" style="transition-delay:.3s"><img src="/images/cat-tools.jpg" alt="Инструменты" loading="lazy"/><div class="category-card-overlay"><span class="category-card-title">Инструменты</span></div></div>
+        <div class="category-card fade-up" style="transition-delay:.4s"><img src="/images/cat-decor.jpg" alt="Декор" loading="lazy"/><div class="category-card-overlay"><span class="category-card-title">Декор</span></div></div>
+        <div class="category-card fade-up" style="transition-delay:.5s"><img src="/images/cat-seeds.jpg" alt="Семена" loading="lazy"/><div class="category-card-overlay"><span class="category-card-title">Семена</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POPULAR -->
+  <section class="section popular" id="popular">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Хиты продаж</div>
+        <h2 class="section-title">Популярные товары</h2>
+        <p class="section-subtitle">Лучшее для вашего сада — выбор наших покупателей</p>
+      </div>
+      <div class="products-grid" id="popularGrid"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image fade-left"><img src="/images/about.jpg" alt="О магазине English Garden" loading="lazy"/></div>
+        <div class="about-text fade-right">
+          <div class="section-label">О нас</div>
+          <h2 class="section-title">Магазин вдохновлённый английскими садами</h2>
+          <p>English Garden — это садовый магазин в самом сердце Череповца, где каждый найдёт всё необходимое для создания уютного и красивого сада.</p>
+          <p>Мы тщательно отбираем растения и товары, работаем только с проверенными питомниками и производителями.</p>
+          <p>С 2018 года мы помогаем жителям Череповца превращать свои участки в настоящие английские сады.</p>
+          <p class="script-font">«Каждый сад — это история, которую мы создаём вместе»</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section class="section advantages" id="advantages">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Почему мы</div>
+        <h2 class="section-title">Наши преимущества</h2>
+        <p class="section-subtitle">Что отличает English Garden от других садовых магазинов</p>
+      </div>
+      <div class="advantages-grid">
+        <div class="advantage-card fade-up" style="transition-delay:.1s"><div class="advantage-icon">🌱</div><div class="advantage-title">Качественные растения</div><p class="advantage-desc">Только здоровые саженцы из проверенных питомников с гарантией приживаемости</p></div>
+        <div class="advantage-card fade-up" style="transition-delay:.2s"><div class="advantage-icon">🚚</div><div class="advantage-title">Доставка по городу</div><p class="advantage-desc">Бережная доставка по Череповцу и области. Бесплатно от 3000 ₽</p></div>
+        <div class="advantage-card fade-up" style="transition-delay:.3s"><div class="advantage-icon">💬</div><div class="advantage-title">Консультации</div><p class="advantage-desc">Наши специалисты помогут подобрать растения и составить план посадки</p></div>
+        <div class="advantage-card fade-up" style="transition-delay:.4s"><div class="advantage-icon">🏷️</div><div class="advantage-title">Честные цены</div><p class="advantage-desc">Без наценок посредников — работаем напрямую с производителями</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATALOG -->
+  <section class="section catalog" id="catalog">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Каталог</div>
+        <h2 class="section-title">Все товары</h2>
+        <p class="section-subtitle">Выберите категорию или посмотрите весь ассортимент</p>
+      </div>
+      <div class="catalog-filters fade-up">
+        <button class="filter-btn active" onclick="filterProducts('all')">Все</button>
+        <button class="filter-btn" onclick="filterProducts('flowers')">Цветы</button>
+        <button class="filter-btn" onclick="filterProducts('seedlings')">Рассада</button>
+        <button class="filter-btn" onclick="filterProducts('tools')">Инструменты</button>
+        <button class="filter-btn" onclick="filterProducts('decor')">Декор</button>
+        <button class="filter-btn" onclick="filterProducts('seeds')">Семена</button>
+      </div>
+      <div class="products-grid" id="catalogGrid"></div>
+    </div>
+  </section>
+
+  <!-- PROMO -->
+  <section class="promo" id="promo">
+    <div class="promo-bg"></div>
+    <div class="promo-overlay"></div>
+    <div class="container">
+      <div class="promo-content fade-up">
+        <h2>Весенняя коллекция 2026</h2>
+        <p>Новые сорта роз, пионов и лаванды уже в продаже! Оформите предзаказ и получите скидку 15%.</p>
+        <a href="#catalog" class="btn btn-white">Смотреть коллекцию</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO ORDER -->
+  <section class="section how-order" id="how-order">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Как это работает</div>
+        <h2 class="section-title">Как сделать заказ</h2>
+        <p class="section-subtitle">Четыре простых шага до сада вашей мечты</p>
+      </div>
+      <div class="steps">
+        <div class="step fade-up" style="transition-delay:.1s"><div class="step-number">1</div><div class="step-title">Выберите товары</div><p class="step-desc">Просмотрите каталог и добавьте понравившиеся товары в корзину</p></div>
+        <div class="step fade-up" style="transition-delay:.2s"><div class="step-number">2</div><div class="step-title">Оформите предзаказ</div><p class="step-desc">Заполните контактные данные и выберите способ доставки</p></div>
+        <div class="step fade-up" style="transition-delay:.3s"><div class="step-number">3</div><div class="step-title">Оплатите онлайн</div><p class="step-desc">Безопасная оплата через ЮKassa — картой, СБП или кошельком</p></div>
+        <div class="step fade-up" style="transition-delay:.4s"><div class="step-number">4</div><div class="step-title">Получите заказ</div><p class="step-desc">Доставим по Череповцу или подготовим к самовывозу</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="section reviews" id="reviews">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Отзывы</div>
+        <h2 class="section-title">Что говорят наши клиенты</h2>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card fade-up" style="transition-delay:.1s">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Заказывала розы для дачи — все прижились! Очень качественный материал и приятные консультанты.»</p>
+          <div class="review-author"><div class="review-avatar">Е</div><div><div class="review-name">Елена Сорокина</div><div class="review-date">Февраль 2026</div></div></div>
+        </div>
+        <div class="review-card fade-up" style="transition-delay:.2s">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Лучший садовый магазин в Череповце! Большой выбор инструментов, всё оригинальное. Доставили быстро.»</p>
+          <div class="review-author"><div class="review-avatar">А</div><div><div class="review-name">Андрей Козлов</div><div class="review-date">Январь 2026</div></div></div>
+        </div>
+        <div class="review-card fade-up" style="transition-delay:.3s">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Заказала семена и рассаду на весну через предзаказ. Удобная оплата, всё пришло в срок!»</p>
+          <div class="review-author"><div class="review-avatar">М</div><div><div class="review-name">Мария Новикова</div><div class="review-date">Март 2026</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section class="section contacts" id="contacts">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Контакты</div>
+        <h2 class="section-title">Как нас найти</h2>
+      </div>
+      <div class="contacts-grid">
+        <div class="contact-info fade-left">
+          <h3>Свяжитесь с нами</h3>
+          <div class="contact-item"><div class="contact-icon">📍</div><div><div class="contact-label">Адрес</div><div class="contact-value">г. Череповец, ул. Ленина, д. 42</div></div></div>
+          <div class="contact-item"><div class="contact-icon">📞</div><div><div class="contact-label">Телефон</div><div class="contact-value">+7 (8202) 55-00-42</div></div></div>
+          <div class="contact-item"><div class="contact-icon">✉️</div><div><div class="contact-label">Email</div><div class="contact-value">info@english-garden.ru</div></div></div>
+          <div class="contact-item"><div class="contact-icon">🕐</div><div><div class="contact-label">Время работы</div><div class="contact-value">Пн-Сб: 9:00 — 19:00<br>Вс: 10:00 — 17:00</div></div></div>
+        </div>
+        <div class="contacts-map fade-right">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51862.89!2d37.88!3d59.13!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46afd8e0894a69c5%3A0x63e25dbe48f5a!2z0KfQtdGA0LXQv9C-0LLQtdGG!5e0!3m2!1sru!2sru!4v1" allowfullscreen loading="lazy" title="Карта"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">English <span>Garden</span></div>
+          <p class="footer-desc">Садовый магазин в Череповце. Создаём английские сады с 2018 года.</p>
+        </div>
+        <div class="footer-col"><h4>Каталог</h4><a href="#catalog">Цветы</a><a href="#catalog">Рассада</a><a href="#catalog">Инструменты</a><a href="#catalog">Декор</a></div>
+        <div class="footer-col"><h4>Информация</h4><a href="#about">О магазине</a><a href="#how-order">Доставка</a><a href="#how-order">Оплата</a><a href="#contacts">Контакты</a></div>
+        <div class="footer-col"><h4>Контакты</h4><a href="tel:+78202550042">+7 (8202) 55-00-42</a><a href="mailto:info@english-garden.ru">info@english-garden.ru</a><a href="#">VK</a><a href="#">Telegram</a></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 English Garden. Все права защищены.</span><span>Оплата через ЮKassa</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const products=[
+      {id:1,name:'Роза английская «Абрахам Дерби»',category:'flowers',price:1290,oldPrice:1590,badge:'Хит',img:'/images/product1.jpg'},
+      {id:2,name:'Лаванда узколистная',category:'flowers',price:490,oldPrice:null,badge:null,img:'/images/product2.jpg'},
+      {id:3,name:'Гортензия крупнолистная',category:'flowers',price:1890,oldPrice:2200,badge:'Скидка',img:'/images/product3.jpg'},
+      {id:4,name:'Пион травянистый',category:'flowers',price:950,oldPrice:null,badge:null,img:'/images/product4.jpg'},
+      {id:5,name:'Лейка садовая латунная',category:'tools',price:2490,oldPrice:null,badge:'Новинка',img:'/images/product5.jpg'},
+      {id:6,name:'Клематис «Виль де Лион»',category:'flowers',price:780,oldPrice:990,badge:'Скидка',img:'/images/product6.jpg'},
+      {id:7,name:'Набор секаторов Premium',category:'tools',price:3450,oldPrice:4200,badge:'Хит',img:'/images/product7.jpg'},
+      {id:8,name:'Жасмин садовый',category:'flowers',price:690,oldPrice:null,badge:null,img:'/images/product8.jpg'},
+      {id:9,name:'Семена лаванды',category:'seeds',price:190,oldPrice:null,badge:null,img:'/images/cat-seeds.jpg'},
+      {id:10,name:'Рассада петуний (6 шт)',category:'seedlings',price:350,oldPrice:null,badge:null,img:'/images/cat-seedlings.jpg'},
+      {id:11,name:'Декоративный фонарь',category:'decor',price:1850,oldPrice:2300,badge:'Скидка',img:'/images/cat-decor.jpg'},
+      {id:12,name:'Букет из садовых роз',category:'flowers',price:2990,oldPrice:null,badge:'Хит',img:'/images/cat-flowers.jpg'},
+    ];
+    let cart=[];
+    const catNames={flowers:'Цветы',seedlings:'Рассада',tools:'Инструменты',decor:'Декор',seeds:'Семена'};
+    function card(p){
+      return '<div class="product-card scale-in" data-cat="'+p.category+'"><div class="product-img-wrap"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"/>'+(p.badge?'<span class="product-badge">'+p.badge+'</span>':'')+'</div><div class="product-info"><div class="product-category">'+(catNames[p.category]||p.category)+'</div><div class="product-name">'+p.name+'</div><div class="product-price-row"><div><span class="product-price">'+p.price.toLocaleString('ru-RU')+' ₽</span>'+(p.oldPrice?'<span class="product-price-old">'+p.oldPrice.toLocaleString('ru-RU')+' ₽</span>':'')+'</div><button class="btn-add-cart" onclick="addToCart('+p.id+')" title="В корзину">+</button></div></div></div>';
+    }
+    function renderPopular(){
+      var el=document.getElementById('popularGrid');
+      el.innerHTML=products.filter(function(p){return p.badge==='Хит'||p.badge==='Скидка'}).slice(0,4).map(card).join('');
+      setTimeout(function(){el.querySelectorAll('.scale-in').forEach(function(e){e.classList.add('visible')})},200);
+    }
+    function renderCatalog(f){
+      var el=document.getElementById('catalogGrid');
+      var list=f==='all'?products:products.filter(function(p){return p.category===f});
+      el.innerHTML=list.map(card).join('');
+      setTimeout(function(){el.querySelectorAll('.scale-in').forEach(function(e){e.classList.add('visible')})},100);
+    }
+    function filterProducts(cat){
+      document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+      event.target.classList.add('active');
+      renderCatalog(cat);
+    }
+    function addToCart(id){var e=cart.find(function(c){return c.id===id});if(e)e.qty++;else cart.push({id:id,qty:1});updateCartUI();openCart()}
+    function removeFromCart(id){cart=cart.filter(function(c){return c.id!==id});updateCartUI()}
+    function changeQty(id,d){var i=cart.find(function(c){return c.id===id});if(i){i.qty+=d;if(i.qty<=0)removeFromCart(id);else updateCartUI()}}
+    function updateCartUI(){
+      var cc=document.getElementById('cartCount');var t=cart.reduce(function(s,c){return s+c.qty},0);
+      cc.textContent=t;cc.classList.toggle('hidden',t===0);
+      var ce=document.getElementById('cartEmpty'),cf=document.getElementById('cartFooter'),ci=document.getElementById('cartItems');
+      ci.querySelectorAll('.cart-item').forEach(function(e){e.remove()});
+      if(!cart.length){ce.style.display='block';cf.style.display='none';return}
+      ce.style.display='none';cf.style.display='block';
+      var html='',total=0;
+      cart.forEach(function(c){var p=products.find(function(x){return x.id===c.id});total+=p.price*c.qty;
+        html+='<div class="cart-item"><div class="cart-item-img"><img src="'+p.img+'" alt="'+p.name+'"/></div><div class="cart-item-info"><div class="cart-item-name">'+p.name+'</div><div class="cart-item-price">'+p.price.toLocaleString('ru-RU')+' ₽</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('+p.id+',-1)">−</button><span>'+c.qty+'</span><button class="qty-btn" onclick="changeQty('+p.id+',1)">+</button></div></div><button class="cart-item-remove" onclick="removeFromCart('+p.id+')">✕</button></div>';
+      });
+      ce.insertAdjacentHTML('afterend',html);
+      document.getElementById('cartTotal').textContent=total.toLocaleString('ru-RU')+' ₽';
+    }
+    function openCart(){document.getElementById('cartOverlay').classList.add('active');document.getElementById('cartPanel').classList.add('active');document.body.style.overflow='hidden'}
+    function closeCart(){document.getElementById('cartOverlay').classList.remove('active');document.getElementById('cartPanel').classList.remove('active');document.body.style.overflow=''}
+    function checkout(){alert('Переход к оплате через ЮKassa...\n\nВ реальном проекте здесь будет интеграция с платёжной системой ЮKassa.');closeCart()}
+    function openAccount(){document.getElementById('accountOverlay').classList.add('active');document.getElementById('accountModal').classList.add('active');document.body.style.overflow='hidden'}
+    function closeAccount(){document.getElementById('accountOverlay').classList.remove('active');document.getElementById('accountModal').classList.remove('active');document.body.style.overflow=''}
+    function toggleMobileNav(){document.getElementById('burger').classList.toggle('active');document.getElementById('mobileNav').classList.toggle('active');document.getElementById('cartOverlay').classList.toggle('active')}
+    function closeMobileNav(){document.getElementById('burger').classList.remove('active');document.getElementById('mobileNav').classList.remove('active');document.getElementById('cartOverlay').classList.remove('active')}
+    window.addEventListener('scroll',function(){document.getElementById('header').classList.toggle('scrolled',window.scrollY>60)});
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.fade-up,.fade-left,.fade-right,.scale-in').forEach(function(el){obs.observe(el)});
+    renderPopular();renderCatalog('all');
+  </script>
+</body>
 </html>
