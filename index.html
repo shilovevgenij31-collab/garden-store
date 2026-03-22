@@ -64,8 +64,8 @@
     .logo img{width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.15)}
     .logo span{color:var(--accent-gold)}
     .header.scrolled .logo{color:var(--olive-dark)}
-    .nav-links{display:flex;gap:32px;align-items:center}
-    .nav-links a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.9);position:relative;transition:color .3s}
+    .nav-links{display:flex;gap:28px;align-items:center}
+    .nav-links a{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.9);position:relative;transition:color .3s}
     .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent-gold);transition:width .3s}
     .nav-links a:hover::after{width:100%}
     .header.scrolled .nav-links a{color:var(--text-body)}
@@ -94,7 +94,7 @@
     .hero h1 em{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--accent-gold);font-weight:500}
     .hero-desc{font-size:1.15rem;color:rgba(255,255,255,.85);margin-bottom:36px;line-height:1.7}
     .hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
-    .hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;animation:float 3s ease-in-out infinite;color:rgba(255,255,255,.6);font-size:.8rem;text-align:center}
+    .hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;animation:float 3s ease-in-out infinite;color:rgba(255,255,255,.6);font-size:.8rem;text-align:center;display:flex;flex-direction:column;align-items:center}
     .hero-scroll-icon{width:30px;height:50px;border:2px solid rgba(255,255,255,.4);border-radius:15px;margin:8px auto 0;position:relative}
     .hero-scroll-icon::after{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:4px;height:10px;background:rgba(255,255,255,.6);border-radius:2px;animation:float 2s ease-in-out infinite}
 
@@ -153,25 +153,17 @@
     .catalog-menu-item.active:hover{background:var(--olive-dark);padding-left:32px}
     .catalog-menu-item .cat-count{float:right;font-size:.8rem;opacity:.6}
 
-    /* PROMO */
-    .promo{position:relative;padding:120px 0;overflow:hidden}
-    .promo-bg{position:absolute;inset:0;background:url('/images/promo-banner.jpg') center/cover no-repeat}
-    .promo-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(92,107,60,.85) 0%,rgba(74,85,48,.7) 100%)}
-    .promo-content{position:relative;z-index:2;text-align:center;max-width:700px;margin:0 auto}
-    .promo-content h2{font-size:3rem;color:var(--white);margin-bottom:16px}
-    .promo-content p{font-size:1.15rem;color:rgba(255,255,255,.85);margin-bottom:32px}
-
     /* HOW ORDER */
     .how-order{background:var(--bg-cream)}
-    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px}
-    .step{text-align:center;padding:0 16px}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+    .step{text-align:center;padding:0 16px;display:flex;flex-direction:column;align-items:center}
     .step-number{width:60px;height:60px;border-radius:50%;background:var(--olive);color:var(--white);font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
     .step-title{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;color:var(--text-dark)}
     .step-desc{font-size:.9rem;color:var(--text-light);line-height:1.6}
 
     /* REVIEWS */
     .reviews{background:var(--bg-beige)}
-    .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+    .reviews-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
     .review-card{background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow);transition:all var(--transition)}
     .review-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
     .review-stars{color:var(--accent-gold);font-size:1.1rem;margin-bottom:16px;letter-spacing:2px}
@@ -183,25 +175,25 @@
 
     /* CONTACTS */
     .contacts{background:var(--bg-cream)}
-    .contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+    .contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
     .contact-info h3{font-size:1.4rem;margin-bottom:24px}
     .contact-item{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
     .contact-icon{width:44px;height:44px;border-radius:50%;background:var(--olive);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
     .contact-label{font-size:.8rem;color:var(--text-light);margin-bottom:2px}
     .contact-value{font-weight:500;color:var(--text-dark)}
-    .contacts-map{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);min-height:360px}
+    .contacts-map{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);height:100%;min-height:360px}
     .contacts-map iframe{width:100%;height:100%;min-height:360px;border:none}
 
     /* FOOTER */
-    .footer{background:var(--olive-dark);color:rgba(255,255,255,.8);padding:60px 0 24px}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-    .footer-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:12px}
-    .footer-logo img{width:36px;height:36px;border-radius:50%;object-fit:cover}
-    .footer-desc{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.7}
-    .footer-col h4{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--white);margin-bottom:16px}
-    .footer-col a{display:block;font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:10px;transition:color .3s}
+    .footer{background:var(--olive-dark);color:rgba(255,255,255,.8);padding:32px 0 16px}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:20px}
+    .footer-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:8px}
+    .footer-logo img{width:32px;height:32px;border-radius:50%;object-fit:cover}
+    .footer-desc{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.6}
+    .footer-col h4{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white);margin-bottom:12px}
+    .footer-col a{display:block;font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:8px;transition:color .3s}
     .footer-col a:hover{color:var(--accent-gold)}
-    .footer-bottom{border-top:1px solid rgba(255,255,255,.15);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:rgba(255,255,255,.5)}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.15);padding-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:rgba(255,255,255,.5)}
 
     /* MODALS */
     .modal-overlay{position:fixed;inset:0;background:rgba(61,50,37,.5);backdrop-filter:blur(4px);z-index:2000;opacity:0;visibility:hidden;transition:all .3s}
@@ -249,26 +241,28 @@
     @media(max-width:1024px){
       .hero h1{font-size:3rem}.section-title{font-size:2rem}.footer-grid{grid-template-columns:1fr 1fr}
       .catalog-layout{grid-template-columns:220px 1fr}
+      .reviews-grid{grid-template-columns:1fr 1fr}
     }
     @media(max-width:768px){
       .nav-links{display:none}.burger{display:flex}
       .hero h1{font-size:2.4rem}.hero-desc{font-size:1rem}
       .section{padding:70px 0}.section-title{font-size:1.8rem}
-      .about-grid{grid-template-columns:1fr}.contacts-grid{grid-template-columns:1fr}
-      .footer-grid{grid-template-columns:1fr;gap:24px}
-      .promo-content h2{font-size:2.2rem}
+      .about-grid{grid-template-columns:1fr}
+      .contacts-grid{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr;gap:16px}
+      .steps{grid-template-columns:1fr}
       .footer-bottom{flex-direction:column;gap:8px;text-align:center}
       .catalog-layout{grid-template-columns:1fr}
       .catalog-sidebar-toggle{display:block}
       .catalog-menu{display:none;position:absolute;top:100%;left:0;right:0;z-index:10;margin-top:8px}
       .catalog-menu.mobile-open{display:block}
+      .reviews-grid{grid-template-columns:1fr}
     }
     @media(max-width:480px){
       .hero h1{font-size:2rem}
       .hero-buttons{flex-direction:column}
       .hero-buttons .btn{width:100%;justify-content:center}
       .products-grid{grid-template-columns:1fr}
-      .reviews-grid{grid-template-columns:1fr}
       .section{padding:50px 0}
     }
   </style>
@@ -285,6 +279,7 @@
         <a href="#advantages">Преимущества</a>
         <a href="#reviews">Отзывы</a>
         <a href="#contacts">Контакты</a>
+        <a href="#how-order">Как заказать</a>
       </nav>
       <div class="header-actions">
         <button class="header-icon" onclick="openAccount()" title="Личный кабинет">👤</button>
@@ -299,9 +294,9 @@
     <a href="#about" onclick="closeMobileNav()">О нас</a>
     <a href="#catalog" onclick="closeMobileNav()">Каталог</a>
     <a href="#advantages" onclick="closeMobileNav()">Преимущества</a>
-    <a href="#how-order" onclick="closeMobileNav()">Как заказать</a>
     <a href="#reviews" onclick="closeMobileNav()">Отзывы</a>
     <a href="#contacts" onclick="closeMobileNav()">Контакты</a>
+    <a href="#how-order" onclick="closeMobileNav()">Как заказать</a>
   </nav>
 
   <!-- CART -->
@@ -404,19 +399,6 @@
     </div>
   </section>
 
-  <!-- PROMO -->
-  <section class="promo" id="promo">
-    <div class="promo-bg"></div>
-    <div class="promo-overlay"></div>
-    <div class="container">
-      <div class="promo-content fade-up">
-        <h2>Весенняя коллекция 2026</h2>
-        <p>Новые сорта роз, пионов и лаванды уже в продаже! Оформите предзаказ и получите скидку 15%.</p>
-        <a href="#catalog" class="btn btn-white">Смотреть коллекцию</a>
-      </div>
-    </div>
-  </section>
-
   <!-- HOW TO ORDER -->
   <section class="section how-order" id="how-order">
     <div class="container">
@@ -456,6 +438,11 @@
           <p class="review-text">«Заказала семена и рассаду на весну через предзаказ. Удобная оплата, забрала всё в магазине!»</p>
           <div class="review-author"><div class="review-avatar">М</div><div><div class="review-name">Мария Новикова</div><div class="review-date">Март 2026</div></div></div>
         </div>
+        <div class="review-card fade-up" style="transition-delay:.4s">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Купили декоративный фонарь и набор секаторов — качество на высоте! Приятно, что можно заказать онлайн и забрать без очереди.»</p>
+          <div class="review-author"><div class="review-avatar">Д</div><div><div class="review-name">Дмитрий Волков</div><div class="review-date">Март 2026</div></div></div>
+        </div>
       </div>
     </div>
   </section>
@@ -488,7 +475,7 @@
       <div class="footer-grid">
         <div>
           <div class="footer-logo"><img src="/images/logo.jpg" alt="Все в сад" />Все в <span style="color:var(--accent-gold)">сад</span></div>
-          <p class="footer-desc">Садовый магазин в Череповце. Всё для вашего сада — от семян до декора. Предзаказ онлайн, самовывоз из магазина.</p>
+          <p class="footer-desc">Садовый магазин в Череповце. Предзаказ онлайн, самовывоз из магазина.</p>
         </div>
         <div class="footer-col"><h4>Каталог</h4><a href="#catalog">Цветы</a><a href="#catalog">Рассада</a><a href="#catalog">Инструменты</a><a href="#catalog">Декор</a></div>
         <div class="footer-col"><h4>Информация</h4><a href="#about">О магазине</a><a href="#how-order">Как заказать</a><a href="#how-order">Оплата</a><a href="#contacts">Контакты</a></div>
@@ -540,7 +527,6 @@
       document.querySelectorAll('.catalog-menu-item').forEach(function(b){b.classList.remove('active')});
       btn.classList.add('active');
       renderCatalog(cat);
-      // Close mobile sidebar menu after selection
       var menu=document.getElementById('catalogMenu');
       var toggle=document.getElementById('catSidebarToggle');
       if(window.innerWidth<=768){
