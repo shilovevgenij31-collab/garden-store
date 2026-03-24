@@ -1,73 +1,126 @@
-# Welcome to your Lovable project
+# Всё в сад — интернет-магазин для сада
 
-## Project info
+Интернет-магазин садовых товаров. Frontend на React + TypeScript, backend на FastAPI + SQLite.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Структура проекта
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+├── src/                # Frontend (React + Vite + TypeScript)
+├── backend/            # Backend (FastAPI + SQLAlchemy)
+│   ├── app/            # Код приложения
+│   ├── alembic/        # Миграции базы данных
+│   └── requirements.txt
+├── public/             # Статические файлы
+└── package.json        # Зависимости frontend
 ```
 
-**Edit a file directly in GitHub**
+## Запуск frontend (локально)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Установить зависимости
+npm install
 
-**Use GitHub Codespaces**
+# Запустить dev-сервер (порт 8080)
+npm run dev
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Собрать для продакшена
+npm run build
+```
 
-## What technologies are used for this project?
+## Запуск backend (локально)
 
-This project is built with:
+```bash
+cd backend
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# Создать виртуальное окружение
+python -m venv venv
 
-## How can I deploy this project?
+# Активировать (Windows)
+venv\Scripts\activate
+# Активировать (Linux/macOS)
+source venv/bin/activate
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+# Установить зависимости
+pip install -r requirements.txt
 
-## Can I connect a custom domain to my Lovable project?
+# Скопировать .env и заполнить
+cp .env.example .env
 
-Yes, you can!
+# Применить миграции
+alembic upgrade head
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+# Запустить сервер (порт 8000)
+uvicorn app.main:app --reload
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Деплой на сервер
+
+### 1. Подготовка сервера (Ubuntu/Debian)
+
+```bash
+sudo apt update && sudo apt install python3 python3-venv nodejs npm nginx
+```
+
+### 2. Клонирование и настройка
+
+```bash
+git clone https://github.com/<username>/<repo>.git
+cd <repo>
+```
+
+### 3. Backend
+
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+# Отредактировать .env: выставить ENV=production, DEBUG=false, задать SECRET_KEY
+alembic upgrade head
+```
+
+Запуск через systemd или:
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+### 4. Frontend
+
+```bash
+cd ..
+npm install
+npm run build
+# Папка dist/ — готовые статические файлы для Nginx
+```
+
+### 5. Nginx (пример конфига)
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+
+    # Frontend
+    location / {
+        root /path/to/project/dist;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Backend API
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Uploads
+    location /uploads/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+}
+```
+
+## Переменные окружения
+
+Смотри `backend/.env.example` — все доступные настройки с описанием.
