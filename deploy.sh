@@ -7,7 +7,7 @@
 
 set -e
 
-DOMAIN="159.194.202.11"
+DOMAIN="159.194.209.18"
 REPO="https://github.com/shilovevgenij31-collab/garden-store.git"
 PROJECT_DIR="/var/www/garden-store"
 BACKEND_PORT=8000
@@ -55,9 +55,9 @@ if [ ! -f .env ]; then
     echo ">>> .env created. Edit it to set ADMIN_PASSWORD_HASH!"
 fi
 
-# Run migrations
+# Run migrations (PYTHONPATH needed so alembic finds app.models)
 source venv/bin/activate
-alembic upgrade head
+PYTHONPATH="$PROJECT_DIR/backend" alembic upgrade head
 
 deactivate
 
@@ -72,6 +72,7 @@ Type=simple
 User=root
 WorkingDirectory=/var/www/garden-store/backend
 Environment=PATH=/var/www/garden-store/backend/venv/bin:/usr/bin
+Environment=PYTHONPATH=/var/www/garden-store/backend
 ExecStart=/var/www/garden-store/backend/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
 Restart=always
 RestartSec=5
