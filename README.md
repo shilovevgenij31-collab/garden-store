@@ -53,72 +53,44 @@ alembic upgrade head
 uvicorn app.main:app --reload
 ```
 
-## Деплой на сервер
+## Деплой на сервер (Ubuntu/Debian)
 
-### 1. Подготовка сервера (Ubuntu/Debian)
-
-```bash
-sudo apt update && sudo apt install python3 python3-venv nodejs npm nginx
-```
-
-### 2. Клонирование и настройка
+### Быстрый деплой (одна команда)
 
 ```bash
-git clone https://github.com/<username>/<repo>.git
-cd <repo>
+ssh root@YOUR_SERVER_IP
+apt update && apt install -y git curl && \
+curl -fsSL https://raw.githubusercontent.com/shilovevgenij31-collab/garden-store/main/deploy.sh | bash
 ```
 
-### 3. Backend
+Или вручную:
 
 ```bash
-cd backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-# Отредактировать .env: выставить ENV=production, DEBUG=false, задать SECRET_KEY
-alembic upgrade head
+git clone https://github.com/shilovevgenij31-collab/garden-store.git /var/www/garden-store
+cd /var/www/garden-store
+bash deploy.sh
 ```
 
-Запуск через systemd или:
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000
-```
+Скрипт `deploy.sh` автоматически:
+- Установит nginx, Node.js 20, Python 3
+- Соберёт frontend (`npm run build`)
+- Настроит backend (venv, pip, миграции)
+- Создаст systemd-сервис для FastAPI
+- Настроит Nginx как reverse proxy
 
-### 4. Frontend
+### Обновление после git push
 
 ```bash
-cd ..
-npm install
-npm run build
-# Папка dist/ — готовые статические файлы для Nginx
+cd /var/www/garden-store && git pull && npm run build && systemctl restart garden-backend
 ```
 
-### 5. Nginx (пример конфига)
+### Полезные команды
 
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-
-    # Frontend
-    location / {
-        root /path/to/project/dist;
-        try_files $uri $uri/ /index.html;
-    }
-
-    # Backend API
-    location /api/ {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-
-    # Uploads
-    location /uploads/ {
-        proxy_pass http://127.0.0.1:8000;
-    }
-}
+```bash
+systemctl status garden-backend    # статус бэкенда
+journalctl -u garden-backend -f    # логи бэкенда
+systemctl restart garden-backend   # перезапуск бэкенда
+nginx -t && systemctl reload nginx # перезагрузка nginx
 ```
 
 ## Переменные окружения
