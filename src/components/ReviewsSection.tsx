@@ -1,3 +1,10 @@
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+
 const reviews = [
   {
     stars: 5,
@@ -29,7 +36,28 @@ const reviews = [
   },
 ];
 
+function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
+  return (
+    <div className="review-card fade-up">
+      <div className="review-stars">
+        {"★".repeat(review.stars)}
+        {"☆".repeat(5 - review.stars)}
+      </div>
+      <div className="review-text">{review.text}</div>
+      <div className="review-author">
+        <div className="review-avatar">{review.initials}</div>
+        <div>
+          <div className="review-name">{review.name}</div>
+          <div className="review-date">{review.date}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ReviewsSection() {
+  const isMobile = useIsMobile();
+
   return (
     <section className="section reviews" id="reviews">
       <div className="container">
@@ -40,24 +68,23 @@ export default function ReviewsSection() {
             Мы гордимся доверием наших клиентов
           </p>
         </div>
-        <div className="reviews-grid">
-          {reviews.map((review, i) => (
-            <div key={i} className="review-card fade-up">
-              <div className="review-stars">
-                {"★".repeat(review.stars)}
-                {"☆".repeat(5 - review.stars)}
-              </div>
-              <div className="review-text">{review.text}</div>
-              <div className="review-author">
-                <div className="review-avatar">{review.initials}</div>
-                <div>
-                  <div className="review-name">{review.name}</div>
-                  <div className="review-date">{review.date}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {isMobile ? (
+          <Carousel opts={{ align: "start", loop: true }}>
+            <CarouselContent>
+              {reviews.map((review, i) => (
+                <CarouselItem key={i}>
+                  <ReviewCard review={review} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <div className="reviews-grid">
+            {reviews.map((review, i) => (
+              <ReviewCard key={i} review={review} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

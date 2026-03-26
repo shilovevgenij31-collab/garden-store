@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { useCart } from "@/context/CartContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 import type { ProductRead } from "@/api/products";
 
 export default function Catalog() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const isMobile = useIsMobile();
 
   /* Cleanup debounce timer on unmount */
   useEffect(() => {
@@ -46,9 +48,6 @@ export default function Catalog() {
   function handleCategoryClick(slug: string) {
     setActiveCategory(slug);
     setPage(1);
-    if (window.innerWidth <= 768) {
-      setMobileMenuOpen(false);
-    }
   }
 
   /* Animate product cards when they appear */
@@ -65,6 +64,7 @@ export default function Catalog() {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+    toast.success(`Товар "${product.name}" добавлен в корзину`, { id: `cart-${product.id}` });
   }
 
   return (
@@ -74,40 +74,55 @@ export default function Catalog() {
           <div className="section-label">Каталог</div>
           <h2 className="section-title">Наши товары</h2>
           <p className="section-subtitle">
-            Выберите категорию в меню слева или просмотрите весь ассортимент
+            Выберите категорию или просмотрите весь ассортимент
           </p>
         </div>
         <div className="catalog-layout">
-          {/* Sidebar */}
-          <div className="catalog-sidebar fade-left">
-            <button
-              className={`catalog-sidebar-toggle${mobileMenuOpen ? " active" : ""}`}
-              onClick={() => setMobileMenuOpen((v) => !v)}
-            >
-              Категории
-            </button>
-            <div className={`catalog-menu${mobileMenuOpen ? " mobile-open" : ""}`}>
-              <div className="catalog-menu-title">Категории</div>
+          {/* Categories: chips on mobile, sidebar on desktop */}
+          {isMobile ? (
+            <div className="catalog-chips">
               <button
-                className={`catalog-menu-item${activeCategory === "all" ? " active" : ""}`}
+                className={`catalog-chip${activeCategory === "all" ? " active" : ""}`}
                 onClick={() => handleCategoryClick("all")}
               >
-                Все товары{" "}
-                <span className="cat-count">{allProductsCount}</span>
+                Все <span className="chip-count">{allProductsCount}</span>
               </button>
               {categories?.map((cat) => (
                 <button
                   key={cat.id}
-                  className={`catalog-menu-item${activeCategory === cat.slug ? " active" : ""}`}
+                  className={`catalog-chip${activeCategory === cat.slug ? " active" : ""}`}
                   onClick={() => handleCategoryClick(cat.slug)}
                 >
                   {cat.icon ? `${cat.icon} ` : ""}
-                  {cat.name}{" "}
-                  <span className="cat-count">{cat.product_count}</span>
+                  {cat.name} <span className="chip-count">{cat.product_count}</span>
                 </button>
               ))}
             </div>
-          </div>
+          ) : (
+            <div className="catalog-sidebar fade-left">
+              <div className="catalog-menu">
+                <div className="catalog-menu-title">Категории</div>
+                <button
+                  className={`catalog-menu-item${activeCategory === "all" ? " active" : ""}`}
+                  onClick={() => handleCategoryClick("all")}
+                >
+                  Все товары{" "}
+                  <span className="cat-count">{allProductsCount}</span>
+                </button>
+                {categories?.map((cat) => (
+                  <button
+                    key={cat.id}
+                    className={`catalog-menu-item${activeCategory === cat.slug ? " active" : ""}`}
+                    onClick={() => handleCategoryClick(cat.slug)}
+                  >
+                    {cat.icon ? `${cat.icon} ` : ""}
+                    {cat.name}{" "}
+                    <span className="cat-count">{cat.product_count}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Products area */}
           <div>

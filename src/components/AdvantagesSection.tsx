@@ -1,21 +1,24 @@
-const advantages = [
+import type { ReactNode } from "react";
+import { Sprout, BadgeRussianRuble, Store, TreePine } from "lucide-react";
+
+const advantages: { icon: ReactNode; title: string; desc: string }[] = [
   {
-    icon: "🌱",
+    icon: <Sprout size={28} />,
     title: "Качественные растения",
     desc: "Все растения проходят тщательный отбор и поставляются от проверенных питомников",
   },
   {
-    icon: "💰",
+    icon: <BadgeRussianRuble size={28} />,
     title: "Доступные цены",
     desc: "Мы работаем напрямую с поставщиками, что позволяет предлагать лучшие цены в регионе",
   },
   {
-    icon: "🏪",
+    icon: <Store size={28} />,
     title: "Удобный самовывоз",
     desc: "Заберите заказ в нашем магазине в удобное время. Оплата на сайте или при получении",
   },
   {
-    icon: "👩‍🌾",
+    icon: <TreePine size={28} />,
     title: "Консультации экспертов",
     desc: "Наши специалисты помогут подобрать растения и расскажут об особенностях ухода",
   },

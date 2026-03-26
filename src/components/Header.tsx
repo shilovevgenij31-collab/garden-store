@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { User, ShoppingCart, Leaf } from "lucide-react";
 import { useScrollEffect } from "@/hooks/useScrollEffect";
 import { useCart } from "@/context/CartContext";
 import { fetchOrdersByContact, type OrderRead } from "@/api/orders";
@@ -108,14 +109,14 @@ export default function Header() {
               onClick={openAccount}
               title="Личный кабинет"
             >
-              👤
+              <User size={20} />
             </button>
             <button
               className="header-icon"
               onClick={openCart}
               title="Корзина"
             >
-              🛒
+              <ShoppingCart size={20} />
               <span className={`cart-count${totalCount === 0 ? " hidden" : ""}`}>
                 {totalCount}
               </span>
@@ -172,7 +173,7 @@ export default function Header() {
             <div className="cart-items">
               {!hasItems && (
                 <div className="cart-empty">
-                  <div className="cart-empty-icon">🌿</div>
+                  <div className="cart-empty-icon"><Leaf size={40} /></div>
                   <p>Корзина пуста</p>
                   <p style={{ fontSize: ".85rem", marginTop: "8px" }}>
                     Добавьте товары из каталога

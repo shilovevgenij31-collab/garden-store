@@ -27,10 +27,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <div className="hero-scroll">
-        <span>Листайте вниз</span>
-        <div className="hero-scroll-icon"></div>
-      </div>
     </section>
   );
 }

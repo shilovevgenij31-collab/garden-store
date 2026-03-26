@@ -1,21 +1,24 @@
-const contacts = [
+import type { ReactNode } from "react";
+import { MapPin, Phone, Clock, Mail } from "lucide-react";
+
+const contacts: { icon: ReactNode; label: string; value: string }[] = [
   {
-    icon: "📍",
+    icon: <MapPin size={20} />,
     label: "Адрес",
     value: "г. Череповец, ул. Ленина, 50",
   },
   {
-    icon: "📞",
+    icon: <Phone size={20} />,
     label: "Телефон",
     value: "+7 (8202) 55-12-34",
   },
   {
-    icon: "🕐",
+    icon: <Clock size={20} />,
     label: "Режим работы",
     value: "Пн–Сб: 9:00–19:00, Вс: 10:00–17:00",
   },
   {
-    icon: "✉️",
+    icon: <Mail size={20} />,
     label: "Email",
     value: "info@vsevSad.ru",
   },

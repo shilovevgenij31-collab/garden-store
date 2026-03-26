@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { fetchProductBySlug, type ProductRead } from "@/api/products";
 import { useCart } from "@/context/CartContext";
 import Header from "@/components/Header";
@@ -32,6 +33,7 @@ export default function ProductPage() {
   function handleAdd() {
     if (!product) return;
     addToCart(product, qty);
+    toast.success(`Товар "${product.name}" (x${qty}) добавлен в корзину`, { id: `cart-${product.id}` });
     clearTimeout(addedTimerRef.current);
     setAdded(true);
     addedTimerRef.current = setTimeout(() => setAdded(false), 1500);
