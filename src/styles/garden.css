@@ -175,7 +175,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:600;color:var(--text-d
 .footer{background:var(--olive-dark);color:rgba(255,255,255,.8);padding:32px 0 16px}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:20px}
 .footer-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:8px}
-.footer-logo img{width:32px;height:32px;border-radius:50%;object-fit:cover}
+.footer-logo img{height:48px;width:auto;border-radius:50%;object-fit:contain}
 .footer-desc{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.6}
 .footer-col h4{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white);margin-bottom:12px}
 .footer-col a{display:block;font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:8px;transition:color .3s}
