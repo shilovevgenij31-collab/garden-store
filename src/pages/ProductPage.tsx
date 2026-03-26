@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { X } from "lucide-react";
 import { fetchProductBySlug, type ProductRead } from "@/api/products";
 import { useCart } from "@/context/CartContext";
 import Header from "@/components/Header";
@@ -9,6 +10,7 @@ import Footer from "@/components/Footer";
 
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -44,6 +46,14 @@ export default function ProductPage() {
       <Header />
       <main className="product-page">
         <div className="container">
+          <button
+            className="product-close-btn"
+            onClick={() => navigate(-1)}
+            title="Закрыть"
+          >
+            <X size={24} />
+          </button>
+
           <nav className="product-breadcrumbs">
             <Link to="/">Главная</Link>
             <span>/</span>

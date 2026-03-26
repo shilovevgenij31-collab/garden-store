@@ -1,11 +1,36 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { Flower2, Sprout, Wrench, Gem, Wheat } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { useCart } from "@/context/CartContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import type { ProductRead } from "@/api/products";
+
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  "cvety": <Flower2 size={16} />,
+  "flowers": <Flower2 size={16} />,
+  "rassada": <Sprout size={16} />,
+  "seedlings": <Sprout size={16} />,
+  "instrumenty": <Wrench size={16} />,
+  "tools": <Wrench size={16} />,
+  "dekor": <Gem size={16} />,
+  "decor": <Gem size={16} />,
+  "semena": <Wheat size={16} />,
+  "seeds": <Wheat size={16} />,
+};
+
+function getCategoryIcon(slug: string, name: string): React.ReactNode {
+  if (CATEGORY_ICONS[slug]) return CATEGORY_ICONS[slug];
+  const lower = name.toLowerCase();
+  if (lower.includes("цвет")) return <Flower2 size={16} />;
+  if (lower.includes("рассад")) return <Sprout size={16} />;
+  if (lower.includes("инструмент")) return <Wrench size={16} />;
+  if (lower.includes("декор")) return <Gem size={16} />;
+  if (lower.includes("семен") || lower.includes("семян")) return <Wheat size={16} />;
+  return null;
+}
 
 export default function Catalog() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
@@ -93,7 +118,7 @@ export default function Catalog() {
                   className={`catalog-chip${activeCategory === cat.slug ? " active" : ""}`}
                   onClick={() => handleCategoryClick(cat.slug)}
                 >
-                  {cat.icon ? `${cat.icon} ` : ""}
+                  {getCategoryIcon(cat.slug, cat.name)}
                   {cat.name} <span className="chip-count">{cat.product_count}</span>
                 </button>
               ))}
@@ -115,8 +140,10 @@ export default function Catalog() {
                     className={`catalog-menu-item${activeCategory === cat.slug ? " active" : ""}`}
                     onClick={() => handleCategoryClick(cat.slug)}
                   >
-                    {cat.icon ? `${cat.icon} ` : ""}
-                    {cat.name}{" "}
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                      {getCategoryIcon(cat.slug, cat.name)}
+                      {cat.name}
+                    </span>
                     <span className="cat-count">{cat.product_count}</span>
                   </button>
                 ))}

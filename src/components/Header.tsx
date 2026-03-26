@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { User, ShoppingCart, Leaf } from "lucide-react";
+import { User, ShoppingCart, Leaf, X } from "lucide-react";
 import { useScrollEffect } from "@/hooks/useScrollEffect";
 import { useCart } from "@/context/CartContext";
 import { fetchOrdersByContact, type OrderRead } from "@/api/orders";
@@ -135,6 +135,9 @@ export default function Header() {
 
       {/* MOBILE NAV */}
       <nav className={`mobile-nav${mobileNavOpen ? " active" : ""}`}>
+        <button className="mobile-nav-close" onClick={closeMobileNav}>
+          <X size={24} />
+        </button>
         {navLinks.map((link) => (
           <a key={link.href} href={link.href} onClick={closeMobileNav}>
             {link.label}

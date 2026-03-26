@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div>
             <div className="footer-logo">
-              <img src="/images/logo.jpg" alt="Все в сад" />
+              <img src="/images/logo.png" alt="Все в сад" />
               Все в сад
             </div>
             <div className="footer-desc">
