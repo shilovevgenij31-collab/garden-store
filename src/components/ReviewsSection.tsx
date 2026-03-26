@@ -36,9 +36,9 @@ const reviews = [
   },
 ];
 
-function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
+function ReviewCard({ review, animate = true }: { review: (typeof reviews)[number]; animate?: boolean }) {
   return (
-    <div className="review-card fade-up">
+    <div className={`review-card${animate ? " fade-up" : ""}`}>
       <div className="review-stars">
         {"★".repeat(review.stars)}
         {"☆".repeat(5 - review.stars)}
@@ -73,7 +73,7 @@ export default function ReviewsSection() {
             <CarouselContent>
               {reviews.map((review, i) => (
                 <CarouselItem key={i}>
-                  <ReviewCard review={review} />
+                  <ReviewCard review={review} animate={false} />
                 </CarouselItem>
               ))}
             </CarouselContent>
